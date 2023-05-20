@@ -14,7 +14,7 @@ tbd
 ## Data Preparation
 1) Select Data: Which columns are important for our task etc
 2) Clean Data: Only if necessary. Probably useful to remove rows with NaN, 0, blank or wrong(dates in the future e.g.) values.
-3) Merge/Augment Data: With 
+3) Merge/Augment Data: With  
   a) Weather Information,  
   b) Vicinity/Location of primary and high schools  
   c) Information about events in vicinity  
