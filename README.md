@@ -12,7 +12,15 @@ tbd
 3) Data Quality Report:
 
 ## Data Preparation
-tbd
+1) Select Data: Which columns are important for our task etc
+2) Clean Data: Only if necessary. Probably useful to remove rows with NaN, 0, blank or wrong(dates in the future e.g.) values.
+3) Merge/Augment Data: With 
+  a) Weather Information,
+  b) Vicinity/Location of primary and high schools
+  c) Information about events in vicinity
+  d) Vicinity/Location of major businesses
+  e) Vicinity/Location of major attractions
+4) Format Data: Only if necessary.
 
 ## Modeling
 tbd
