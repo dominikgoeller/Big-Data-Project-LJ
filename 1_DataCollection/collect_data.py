@@ -50,6 +50,9 @@ def get_major_attractions_data():
     print(data.info())
     print(data.head(1))
     # need to convert the_geom column to location
+    data.to_parquet("../data/0_RAW/major-attractions_locations.parquet")
+    data.to_hdf("../data/0_RAW/major-attractions_locations.h5", key="major-attractions_locations")
+
 def get_business_data():
     '''
     This data set features businesses/individuals holding a DCA license so that they may legally operate in New York City.
