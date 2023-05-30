@@ -40,9 +40,28 @@ def get_school_data():
     
 def get_event_data():
     pass
-    
+
+def get_major_attractions_data():
+    '''
+    https://data.cityofnewyork.us/City-Government/Points-Of-Interest/rxuy-2muj
+    https://data.cityofnewyork.us/resource/t95h-5fsr.json
+    '''
+    data = pd.read_csv("https://data.cityofnewyork.us/resource/t95h-5fsr.csv")
+    print(data.info())
+    print(data.head(1))
+    # need to convert the_geom column to location
 def get_business_data():
-    pass
+    '''
+    This data set features businesses/individuals holding a DCA license so that they may legally operate in New York City.
+    Note: Sightseeing guides and temporary street fair vendors are not included in this data set.
+    '''
+    data = pd.read_csv("https://data.cityofnewyork.us/resource/w7w3-xahh.csv")
+
+    print(data.info())
+    print(data.head(1))
+    
+    data.to_parquet("../data/0_RAW/business_locations.parquet")
+    data.to_hdf("../data/0_RAW/business_locations.h5", key="business_locations")
     
 def get_attraction_data():
     # get data from overpass though open street map data
@@ -68,4 +87,6 @@ def get_attraction_data():
 
 #get_ticket_data()
 #get_weather_data()
-get_school_data()
+#get_school_data()
+#get_business_data()
+get_major_attractions_data()
