@@ -39,8 +39,14 @@ def get_school_data():
     data.to_hdf('../data/0_RAW/school_locations.h5', key='school_locations')
     
 def get_event_data():
-    pass
+    
+    data = pd.read_csv("https://data.cityofnewyork.us/resource/tvpp-9vvx.csv")
 
+    print(data.info())
+    print(data.head(1))
+
+    data.to_parquet("../data/0_RAW/event_locations.parquet")
+    data.to_hdf("../data/0_RAW/event_locations.h5", key="event_locations")
 def get_major_attractions_data():
     '''
     https://data.cityofnewyork.us/City-Government/Points-Of-Interest/rxuy-2muj
@@ -92,4 +98,5 @@ def get_attraction_data():
 #get_weather_data()
 #get_school_data()
 #get_business_data()
-get_major_attractions_data()
+#get_major_attractions_data()\
+get_event_data()
