@@ -24,6 +24,12 @@ tbd
 
 ## Modeling
 tbd
+## notes
+hypothesen aufstellen
+weather data for districts
+business areas definieren (> 50 businesses in einer area) und nehmen das dann als ganzes
+spatial map for school start and school end for parking ticket violations in a certain area around schools
+correlation of events in may vs parking tickets (maybe example events like fashion week and pride parade etc)
 
 ## Evaluation
 tbd
