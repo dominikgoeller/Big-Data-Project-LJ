@@ -20,13 +20,12 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
-data/processed/parking_violations_issued_2023: src/data/make_dataset.py data/raw/Parking_Violations_Issued_-_Fiscal_Year_2023.csv
-	$(PYTHON_INTERPRETER) $^ $@
-
 data_parquet:
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py \
 	data/raw/Parking_Violations_Issued_-_Fiscal_Year_2023.csv data/processed/parking_violations_issued_2023 PARQUET
 
+aggregate_data:
+	$(PYTHON_INTERPRETER) src/features/build_features.py data/processed/parking_violations_issued_2023.parquet data/processed/aggregated_data.parquet
 
 ## Install Python Dependencies
 requirements: test_environment

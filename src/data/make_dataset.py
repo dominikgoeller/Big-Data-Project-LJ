@@ -7,6 +7,8 @@ from pathlib import Path
 from dask.distributed import Client
 import dask.dataframe as dd
 
+from datetime import datetime
+
 from config import column_types
 
 
@@ -32,6 +34,20 @@ def main(input_filepath, output_filepath, file_type):
     # Set issue_date to datetime object
     df['issue_date'] = dd.to_datetime(df['issue_date'])
 
+    # DATA PREPARATION
+    #length_df = len(df.columns)
+    #df = df.dropna(how='all')
+
+    # drop rows with an issue day after today
+    df = df[(df['issue_date'] =< datetime(2023, 5, 16) & df['issue_date'] >= datetime(2022, 6, 1)]
+
+    #f = df.drop(['no_standing_or_stopping_violation', 'hydrant_violation','double_parking_violation'], axis=1).compute()
+
+    # Fill null values
+    df[['street_code1', 'street_code2', 'street_code3']] = df[['street_code1', 'street_code2', 'street_code3']] .fillna(0)
+
+    #logger.info(df.count().compute())
+
     if file_type == 'PARQUET':
         df.to_parquet(output_filepath+'.parquet')
     elif file_type == 'h5':
@@ -41,6 +57,8 @@ def main(input_filepath, output_filepath, file_type):
         df.to_hdf(output_filepath+'h5', key='parking_ticket')
     else:
         raise Exception('No enabled file type give. Please define output_filepath to be either PARQUET or HDFS(h5) type')
+
+    #logger.info(f"{length_df - len(df.columns)} columns dropped. Because all values were null or NaN.")
 
     client.shutdown()
 
