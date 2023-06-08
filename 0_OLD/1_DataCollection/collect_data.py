@@ -1,15 +1,19 @@
 import pandas as pd
 from datetime import datetime
 from meteostat import Point, Hourly
+from dask.distributed import Client
+
+client = Client(n_workers=3, threads_per_worker = 2, memory_limit='4G')
+display(client)
+
+PATH_TO_PARKING_DATA = "/mnt/c/Users/Yannik/Downloads/Parking_Violations_Issued_-_Fiscal_Year_2023.csv"
 
 def get_ticket_data():
-    df = pd.read_csv('https://data.cityofnewyork.us/resource/7mxj-7a6y.csv')
+    df = dd.read_csv(PATH_TO_PARKING_DATA,\
+                    dtype=types, blocksize='100e6')
     
-    print(df.info())
-    print(df.head(1))
-    
-    df.to_parquet('../data/0_RAW/parking_ticket_2022.parquet')
-    df.to_hdf('../data/0_RAW/parking_ticket_2022.h5', key='parking_ticket')
+    df.to_parquet('../data/0_RAW/parking_ticket_2023.parquet')
+    df.to_hdf('../data/0_RAW/parking_ticket_2023.h5', key='parking_ticket')
     
 def get_weather_data():
     # Set time period
