@@ -1,0 +1,90 @@
+2023-06-09 03:00:23,073 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-06-09 03:00:23,073 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-06-09 03:00:23,074 -  - DEBUG - =============================================================
+
+2023-06-09 03:00:23,074 -  - DEBUG -    198    316.6 MiB    316.6 MiB           1   @profile(stream=dask_ml_fh)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    199                                         def train_dask_ml_model2(X_train_dda, X_test_dda, y_train_dda, y_test_dda, classes):
+
+2023-06-09 03:00:23,074 -  - DEBUG -    200    316.6 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-06-09 03:00:23,074 -  - DEBUG -    201                                             
+
+2023-06-09 03:00:23,074 -  - DEBUG -    202    316.6 MiB      0.0 MiB           1       sgd = SGDClassifier(loss='log_loss')
+
+2023-06-09 03:00:23,074 -  - DEBUG -    203                                         
+
+2023-06-09 03:00:23,074 -  - DEBUG -    204    316.6 MiB      0.0 MiB           1       model = Incremental(sgd)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    205                                         
+
+2023-06-09 03:00:23,074 -  - DEBUG -    206                                             #for X_batch, y_batch in data_chunker(X_train_dda, y_train_dda, chunk_size=1000):
+
+2023-06-09 03:00:23,074 -  - DEBUG -    207                                                 #model.fit(X_batch, y_batch, classes=classes)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    208    316.6 MiB      0.0 MiB           1       print(type(X_train_dda))
+
+2023-06-09 03:00:23,074 -  - DEBUG -    209    316.6 MiB      0.0 MiB           1       print(type(y_train_dda))
+
+2023-06-09 03:00:23,074 -  - DEBUG -    210    316.9 MiB      0.3 MiB           1       model.fit(X=X_train_dda, y=y_train_dda, classes=classes)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    211    317.0 MiB      0.1 MiB           1       pred = model.predict(X_test_dda)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    212                                         
+
+2023-06-09 03:00:23,074 -  - DEBUG -    213    317.1 MiB      0.1 MiB           1       accuracy = accuracy_score(y_test_dda.compute(), pred.compute())
+
+2023-06-09 03:00:23,074 -  - DEBUG -    214    317.1 MiB      0.0 MiB           1       print("Dask-ML Model Accuracy: ", accuracy)
+
+2023-06-09 03:00:23,074 -  - DEBUG -    215                                         
+
+2023-06-09 03:00:23,074 -  - DEBUG -    216    317.1 MiB      0.0 MiB           1       pred_proba = model.predict_proba(X_test_dda)
+
+2023-06-09 03:00:23,075 -  - DEBUG -    217    317.2 MiB      0.1 MiB           1       loss = log_loss(y_test_dda.compute(), pred_proba.compute())
+
+2023-06-09 03:00:23,075 -  - DEBUG -    218    317.2 MiB      0.0 MiB           1       print("Dask-ML Model Log Loss: ", loss)
+
+2023-06-09 03:00:23,075 -  - DEBUG -    219                                         
+
+2023-06-09 03:00:23,075 -  - DEBUG -    220    317.2 MiB      0.0 MiB           1       sgd_model = model.estimator
+
+2023-06-09 03:00:23,075 -  - DEBUG -    221    317.2 MiB      0.0 MiB           1       dump(sgd_model, '../../models/sgd_model.joblib')
+
+2023-06-09 03:00:23,075 -  - DEBUG -    222                                         
+
+2023-06-09 03:00:23,075 -  - DEBUG -    223    317.2 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-06-09 03:00:23,075 -  - DEBUG -    224    317.2 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-06-09 03:00:23,075 -  - DEBUG -    225    317.2 MiB      0.0 MiB           1       print(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-06-09 03:00:23,075 -  - DEBUG -    226                                         
+
+2023-06-09 03:00:23,075 -  - DEBUG -    227    317.2 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-06-09 03:00:23,075 -  - DEBUG -    228    317.2 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-06-09 03:00:23,076 -  - DEBUG -    229    317.2 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/dask_ml_metrics.log")
+
+2023-06-09 03:00:23,076 -  - DEBUG -    230    317.2 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-06-09 03:00:23,076 -  - DEBUG -    231    317.2 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-06-09 03:00:23,076 -  - DEBUG -    232    317.2 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-06-09 03:00:23,076 -  - DEBUG -    233    317.2 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-06-09 03:00:23,076 -  - DEBUG -    234    317.2 MiB      0.0 MiB           1       logger.info(f"Dask-ML Model Accuracy: {accuracy}")
+
+2023-06-09 03:00:23,076 -  - DEBUG -    235    317.2 MiB      0.0 MiB           1       logger.info(f"Dask-ML Model Log Loss: {loss}")
+
+2023-06-09 03:00:23,076 -  - DEBUG -    236    317.2 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-06-09 03:00:23,076 -  - DEBUG -    237    317.2 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-06-09 03:00:23,076 -  - DEBUG - 
+
+

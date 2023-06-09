@@ -1,0 +1,74 @@
+2023-06-09 03:02:48,756 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-06-09 03:02:48,756 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-06-09 03:02:48,756 -  - DEBUG - =============================================================
+
+2023-06-09 03:02:48,756 -  - DEBUG -    130    316.0 MiB    316.0 MiB           1   @profile(stream=xgb_fh)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    131                                         def train_xgboost_model(X_train, X_test,y_train, y_test, client):
+
+2023-06-09 03:02:48,756 -  - DEBUG -    132    316.0 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-06-09 03:02:48,756 -  - DEBUG -    133                                         
+
+2023-06-09 03:02:48,756 -  - DEBUG -    134    316.0 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    135    316.0 MiB      0.0 MiB           1       clf.client = client
+
+2023-06-09 03:02:48,756 -  - DEBUG -    136    317.2 MiB      1.2 MiB           1       clf.fit(X=X_train, y=y_train)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    137    317.3 MiB      0.1 MiB           1       preds = clf.predict(X=X_test)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    138    317.4 MiB      0.1 MiB           1       accuracy = accuracy_score(y_test, preds)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    139    317.4 MiB      0.0 MiB           1       print("XGBoost Model Accuracy: ", accuracy)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    140                                         
+
+2023-06-09 03:02:48,756 -  - DEBUG -    141    317.5 MiB      0.1 MiB           1       preds_proba = clf.predict_proba(X_test)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    142    317.7 MiB      0.2 MiB           1       loss = log_loss(y_test, preds_proba)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    143    317.7 MiB      0.0 MiB           1       print("XGBoost Model Log Loss: ", loss)
+
+2023-06-09 03:02:48,756 -  - DEBUG -    144                                         
+
+2023-06-09 03:02:48,756 -  - DEBUG -    145    317.8 MiB      0.2 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-06-09 03:02:48,756 -  - DEBUG -    146    317.9 MiB      0.0 MiB           1       client.close()
+
+2023-06-09 03:02:48,756 -  - DEBUG -    147    317.9 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-06-09 03:02:48,756 -  - DEBUG -    148    317.9 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-06-09 03:02:48,756 -  - DEBUG -    149    317.9 MiB      0.0 MiB           1       print(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-06-09 03:02:48,757 -  - DEBUG -    150                                         
+
+2023-06-09 03:02:48,757 -  - DEBUG -    151    317.9 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-06-09 03:02:48,757 -  - DEBUG -    152    317.9 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-06-09 03:02:48,757 -  - DEBUG -    153    317.9 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-06-09 03:02:48,757 -  - DEBUG -    154    317.9 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-06-09 03:02:48,757 -  - DEBUG -    155    317.9 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-06-09 03:02:48,757 -  - DEBUG -    156    317.9 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-06-09 03:02:48,757 -  - DEBUG -    157    317.9 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-06-09 03:02:48,757 -  - DEBUG -    158    317.9 MiB      0.0 MiB           1       logger.info(f"Dask-ML Model Accuracy: {accuracy}")
+
+2023-06-09 03:02:48,757 -  - DEBUG -    159    317.9 MiB      0.0 MiB           1       logger.info(f"Dask-ML Model Log Loss: {loss}")
+
+2023-06-09 03:02:48,757 -  - DEBUG -    160    317.9 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-06-09 03:02:48,757 -  - DEBUG -    161    317.9 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-06-09 03:02:48,757 -  - DEBUG - 
+
+

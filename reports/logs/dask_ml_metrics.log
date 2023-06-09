@@ -1,0 +1,15 @@
+2023-06-09 02:49:18,599 - Dask-ML Model Accuracy: 0.6363636363636364
+2023-06-09 02:49:18,600 - Dask-ML Model Log Loss: 13.106783050588056
+2023-06-09 02:49:18,600 - Total time taken for Dask-ML model training: 0.6520559787750244 seconds
+2023-06-09 02:52:44,608 - Dask-ML Model Accuracy: 0.6363636363636364
+2023-06-09 02:52:44,609 - Dask-ML Model Log Loss: 13.106783050588056
+2023-06-09 02:52:44,610 - Total time taken for Dask-ML model training: 0.30582332611083984 seconds
+2023-06-09 02:56:15,411 - Dask-ML Model Accuracy: 0.42857142857142855
+2023-06-09 02:56:15,412 - Dask-ML Model Log Loss: 20.596373365209804
+2023-06-09 02:56:15,413 - Total time taken for Dask-ML model training: 0.2775838375091553 seconds
+2023-06-09 02:57:24,874 - Dask-ML Model Accuracy: 0.6363636363636364
+2023-06-09 02:57:24,875 - Dask-ML Model Log Loss: 13.106783050588056
+2023-06-09 02:57:24,875 - Total time taken for Dask-ML model training: 0.30852818489074707 seconds
+2023-06-09 03:00:23,071 - Dask-ML Model Accuracy: 0.6363636363636364
+2023-06-09 03:00:23,072 - Dask-ML Model Log Loss: 13.106783050588056
+2023-06-09 03:00:23,072 - Total time taken for Dask-ML model training: 0.28087806701660156 seconds
