@@ -39,7 +39,7 @@ def main(input_filepath, output_filepath, file_type):
     #df = df.dropna(how='all')
 
     # drop rows with an issue day after today
-    df = df[(df['issue_date'] =< datetime(2023, 5, 16) & df['issue_date'] >= datetime(2022, 6, 1)]
+    df = df[(df['issue_date'] <= datetime(2023, 5, 16)) & (df['issue_date'] >= datetime(2022, 6, 1))]
 
     #f = df.drop(['no_standing_or_stopping_violation', 'hydrant_violation','double_parking_violation'], axis=1).compute()
 
