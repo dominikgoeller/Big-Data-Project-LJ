@@ -6,10 +6,18 @@ from pathlib import Path
 
 from dask.distributed import Client
 import dask.dataframe as dd
+import dask.delayed as delayed
+
+import pandas as pd
 
 from datetime import datetime
 
 from config import column_types
+
+def convert_time(time_str):
+    if time_str[:2] == '00':
+        time_str = '12' + time_str[2:]
+    return time_str
 
 
 @click.command()
@@ -30,21 +38,35 @@ def main(input_filepath, output_filepath, file_type):
 
     # Rename all columns to be lower case and connect words with '_'
     df = df.rename(columns=lambda x: x.lower().rstrip().replace(' ', '_'))
-
-    # Set issue_date to datetime object
-    df['issue_date'] = dd.to_datetime(df['issue_date'])
+    
+    
 
     # DATA PREPARATION
     #length_df = len(df.columns)
     #df = df.dropna(how='all')
 
-    # drop rows with an issue day after today
-    df = df[(df['issue_date'] =< datetime(2023, 5, 16) & df['issue_date'] >= datetime(2022, 6, 1)]
-
+    
     #f = df.drop(['no_standing_or_stopping_violation', 'hydrant_violation','double_parking_violation'], axis=1).compute()
 
     # Fill null values
     df[['street_code1', 'street_code2', 'street_code3']] = df[['street_code1', 'street_code2', 'street_code3']] .fillna(0)
+    #df['violation_time'] = df['violation_time'].fillna("1200A")
+    
+    #df['violation_time'] = df['violation_time'].map(convert_time, meta=('violation_time', 'object'))
+
+    # Compute the result
+    #df = df.compute()
+
+    # df['issue_datetime'] = df['issue_date'] + ' ' + df['violation_time']
+    # df['issue_datetime'] = df['issue_datetime'] + 'M'
+    # df['issue_datetime'] = dd.to_datetime(df['issue_datetime'], format='%m/%d/%Y %I%M%p')
+
+    # # Set issue_date to datetime object
+    df['issue_date'] = dd.to_datetime(df['issue_date'])
+    
+    # drop rows with an issue day after today
+    df = df[(df['issue_date'] <= datetime(2023, 5, 16)) & (df['issue_date'] >= datetime(2022, 6, 1))]
+
 
     #logger.info(df.count().compute())
 
