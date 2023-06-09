@@ -172,8 +172,14 @@ def train_dask_ml_model2(X_train_dda, X_test_dda, y_train_dda, y_test_dda, class
     logger.removeHandler(fh)
 
 
-# T6
+# T6 TODO still missing parquet file to analyse (in trial run we got some interesting anomalies but couldnt find events that matched exactly)
+'''
+street_day_tickets = df.groupby(['street_name', 'issue_date']).size().reset_index(name='num_tickets')
+scaler = MinMaxScaler(feature_range=(0, 100))
 
+# Fit the scaler and transform the 'num_tickets' column
+street_day_tickets['num_tickets'] = scaler.fit_transform(street_day_tickets[['num_tickets']])
+'''
 def detect_anomalies(df, column='num_counts', contamination=0.01):
     clf = IsolationForest(contamination=contamination)
     clf.fit(df[[column]])
