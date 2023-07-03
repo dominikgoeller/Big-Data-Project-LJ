@@ -19,7 +19,7 @@ import logging
 from joblib import dump
 import time
 from sklearn.ensemble import IsolationForest
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.ensemble import IsolationForest
 
 class FileHandlerStream:
@@ -181,6 +181,13 @@ scaler = MinMaxScaler(feature_range=(0, 100))
 street_day_tickets['num_tickets'] = scaler.fit_transform(street_day_tickets[['num_tickets']])
 '''
 def detect_anomalies(df, column='num_counts', contamination=0.01):
+    # assuming df is your original DataFrame and 'street_name' is your column of interest
+    street_day_tickets = df.groupby(['street_name', 'issue_date']).size().reset_index(name='num_tickets')
+    scaler = MinMaxScaler(feature_range=(0, 100))
+
+    # Fit the scaler and transform the 'num_tickets' column
+    street_day_tickets['num_tickets'] = scaler.fit_transform(street_day_tickets[['num_tickets']])
+
     clf = IsolationForest(contamination=contamination)
     clf.fit(df[[column]])
     preds = clf.predict(df[[column]])
