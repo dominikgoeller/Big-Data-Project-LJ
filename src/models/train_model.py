@@ -1,12 +1,12 @@
 from sklearn.linear_model import SGDClassifier  
 from dask.distributed import Client, LocalCluster
 import xgboost as xgb
-import dask.array as da
+import os
 import dask.dataframe as dd
 import dask_ml.model_selection as dms
 import numpy as np
 from dask_ml.wrappers import Incremental
-from sklearn.metrics import accuracy_score,log_loss
+from sklearn.metrics import accuracy_score,log_loss, precision_score, recall_score
 import torch.nn as nn
 import torch
 import torch.distributed as dist
@@ -21,6 +21,11 @@ import time
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.ensemble import IsolationForest
+import matplotlib.pyplot as plt
+import pandas as pd
+from dask_ml.preprocessing import StandardScaler
+from dask.diagnostics import ProgressBar
+import psutil
 
 class FileHandlerStream:
     def __init__(self, file_handler):
@@ -51,53 +56,120 @@ def create_func_logger(func_name):
 
 xgb_logger, xgb_fh = create_func_logger('train_xgboost_model')
 dask_ml_logger, dask_ml_fh = create_func_logger('train_dask_ml_model')
+b_ml_logger, b_ml_fh = create_func_logger('train_b_ml_model')
 
 
-def get_data(parquet_data):
+
+def get_data2(parquet_data):
     ddf = dd.read_parquet(path=parquet_data)
-    print(ddf.info())
-     # Calculate threshold, defined as the 75th percentile of the 'summons_number' column
-    threshold = ddf['summons_number'].quantile(0.75).compute()
     ddf = ddf.fillna(0)
+    #print(ddf.head(5))
+    # Calculate threshold, defined as the 75th percentile of the 'summons_number' column
+    threshold = ddf['summons_number'].quantile(0.75).compute()
+    #print("THRESHOLD", threshold)
+    #print(ddf[ddf['summons_number'] > threshold].compute())
+
+    # Filter rows where 'summons_number' is higher than the threshold
+    high_summons = ddf[ddf['summons_number'] > threshold].compute()
+    
     # Add a new column 'is_high_ticket_day' which is 1 if 'summons_number' is greater than threshold, 0 otherwise
     ddf['is_high_ticket_day'] = (ddf['summons_number'] > threshold).astype(int)
+    #print(ddf.head(5))
 
     y_ddf = ddf['is_high_ticket_day']
     X_ddf = ddf.drop('is_high_ticket_day', axis=1)
     
-    X_train_ddf, X_test_ddf, y_train_ddf, y_test_ddf = dms.train_test_split(X_ddf, y_ddf, test_size=0.2, shuffle=True, random_state=42)
+    X_temp, X_test_ddf, y_temp, y_test_ddf = dms.train_test_split(X_ddf, y_ddf, test_size=0.2, shuffle=True, random_state=111)
+    X_train_ddf, X_val_ddf, y_train_ddf, y_val_ddf = dms.train_test_split(X_temp, y_temp, test_size=0.25, shuffle=True, random_state=111)
+
+    #print("Distribution of 'is_high_ticket_day' in training set:\n", y_train_ddf.value_counts(normalize=True).compute())
+    #print("Distribution of 'is_high_ticket_day' in validation set:\n", y_val_ddf.value_counts(normalize=True).compute())
+    #print("Distribution of 'is_high_ticket_day' in test set:\n", y_test_ddf.value_counts(normalize=True).compute())
 
     X_train_dda = X_train_ddf.to_dask_array(lengths=True)
+    X_val_dda = X_val_ddf.to_dask_array(lengths=True)
     X_test_dda = X_test_ddf.to_dask_array(lengths=True)
     y_train_dda = y_train_ddf.to_dask_array(lengths=True)
+    y_val_dda = y_val_ddf.to_dask_array(lengths=True)
     y_test_dda = y_test_ddf.to_dask_array(lengths=True)
 
+    
+    # Make sure issue_date is in datetime format
+    high_summons = high_summons.reset_index()
+    high_summons['issue_date'] = pd.to_datetime(high_summons['issue_date'])
+    
+    # Aggregate by month
+    high_summons = high_summons.resample('M', on='issue_date')['summons_number'].sum()
 
-    return X_train_dda, X_test_dda, y_train_dda, y_test_dda
-    #return X_train_ddf, X_test_ddf, y_train_ddf, y_test_ddf
+    # Create a bar chart of the issue_dates with high summons_number
+    high_summons_dates = high_summons.index
+    high_summons_values = high_summons.values
+    
+    plt.figure(figsize=(10, 5))
+    plt.bar(high_summons_dates, high_summons_values)
+    plt.xlabel('Issue Dates')
+    plt.ylabel('Summons Number')
+    plt.title('Issue Dates with Summons Number higher than the threshold (aggregated by month)')
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    plt.savefig('../../reports/figures/high_summons_dates.png')
+    plt.close()
+
+    return X_train_dda, X_val_dda, X_test_dda, y_train_dda, y_val_dda, y_test_dda
+
 
 # a) distributed algorithms from DASK-ML(XGBoost, LightGBM)
+    
 @profile(stream=xgb_fh)
-def train_xgboost_model(X_train, X_test,y_train, y_test, client):
+def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
     start_time = time.time()
 
-    clf = XGBClassifier(objective='binary:logistic', random_state=111)
+    clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
     clf.client = client
-    clf.fit(X=X_train, y=y_train)
-    preds = clf.predict(X=X_test)
-    accuracy = accuracy_score(y_test, preds)
-    print("XGBoost Model Accuracy: ", accuracy)
 
-    preds_proba = clf.predict_proba(X_test)
-    loss = log_loss(y_test, preds_proba)
-    print("XGBoost Model Log Loss: ", loss)
+    # Specify our validation set and early stopping rounds
+    eval_set = [(X_train, y_train), (X_val, y_val)]
+    clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+    # Extract the performance metrics
+    results = clf.evals_result()
+    epochs = len(results['validation_0']['error'])
+    x_axis = range(0, epochs)
+
+    # Save the performance metrics plots
+    fig, ax = plt.subplots()
+    ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+    ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+    ax.legend()
+    plt.ylabel('Log Loss')
+    plt.title('XGBoost Log Loss')
+    plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+    fig, ax = plt.subplots()
+    ax.plot(x_axis, results['validation_0']['error'], label='Train')
+    ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+    ax.legend()
+    plt.ylabel('Classification Error')
+    plt.title('XGBoost Classification Error')
+    plt.savefig('../../reports/figures/xgb_classification_error.png')
 
     clf.save_model('../../models/XGBClassifie.bin')
-    client.close()
-    end_time = time.time()
-    total_time = end_time - start_time
-    print(f"Total time taken for Dask-ML model training: {total_time} seconds")
 
+    # Begin testing phase
+    y_pred = clf.predict(X_test)
+
+    test_accuracy = accuracy_score(y_test, y_pred)
+    test_precision = precision_score(y_test, y_pred)
+    test_recall = recall_score(y_test, y_pred)
+    test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+    # Print the metrics
+    print("Test Accuracy: ", test_accuracy)
+    print("Test Precision: ", test_precision)
+    print("Test Recall: ", test_recall)
+    print("Test Log Loss: ", test_log_loss)
+
+    # Log the metrics
     logger = logging.getLogger('metrics_log')
     logger.setLevel(logging.INFO)
     fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
@@ -105,60 +177,109 @@ def train_xgboost_model(X_train, X_test,y_train, y_test, client):
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
-    logger.info(f"Dask-ML Model Accuracy: {accuracy}")
-    logger.info(f"Dask-ML Model Log Loss: {loss}")
-    logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
-    logger.removeHandler(fh)
-    
-
-
-# b) common scikit-learn algorithms utilizing partial_fit()
-def data_chunker(X, y, chunk_size=1000):
-    """Generator function to yield chunks of data."""
-    X_aligned = da.rechunk(X, chunks=(chunk_size, -1))
-    y_aligned = da.rechunk(y, chunks=(chunk_size, -1))
-
-    num_chunks = X_aligned.shape[0]
-    for i in range(num_chunks):
-        X_chunk = X_aligned[i]
-        y_chunk = y_aligned[i]
-        #X_chunk_reshaped = np.reshape(X_chunk, (X_chunk.shape[0], -1))
-        X_chunk_reshaped = np.reshape(X_chunk, (-1,))
-        print("X_chunk shape:", X_chunk_reshaped.shape)
-        print("y_chunk shape:", y_chunk.shape)
-        yield X_chunk_reshaped, y_chunk
-
-
-
-@profile(stream=dask_ml_fh)
-def train_dask_ml_model2(X_train_dda, X_test_dda, y_train_dda, y_test_dda, classes):
-    start_time = time.time()
-    
-    sgd = SGDClassifier(loss='log_loss')
-
-    model = Incremental(sgd)
-
-    #for X_batch, y_batch in data_chunker(X_train_dda, y_train_dda, chunk_size=1000):
-        #model.fit(X_batch, y_batch, classes=classes)
-    print(type(X_train_dda))
-    print(type(y_train_dda))
-    model.fit(X=X_train_dda, y=y_train_dda, classes=classes)
-    pred = model.predict(X_test_dda)
-
-    accuracy = accuracy_score(y_test_dda.compute(), pred.compute())
-    print("Dask-ML Model Accuracy: ", accuracy)
-
-    pred_proba = model.predict_proba(X_test_dda)
-    loss = log_loss(y_test_dda.compute(), pred_proba.compute())
-    print("Dask-ML Model Log Loss: ", loss)
-
-    sgd_model = model.estimator
-    dump(sgd_model, '../../models/sgd_model.joblib')
+    logger.info(f"Test Accuracy: {test_accuracy}")
+    logger.info(f"Test Precision: {test_precision}")
+    logger.info(f"Test Recall: {test_recall}")
+    logger.info(f"Test Log Loss: {test_log_loss}")
 
     end_time = time.time()
     total_time = end_time - start_time
-    print(f"Total time taken for Dask-ML model training: {total_time} seconds")
+    print(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+    logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+    # Get the memory usage
+    process = psutil.Process(os.getpid())
+    total_memory = process.memory_info().rss  # in bytes
 
+    # You might want to convert bytes to MB or GB for better readability
+    total_memory_MB = total_memory / (1024 ** 2)  # Convert to MBs
+    print(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+    logger.info(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+    logger.removeHandler(fh)
+
+    # creating figures for the metrics and saving them
+    metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+    metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+    plt.figure(figsize=(10, 5))
+    plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+    for i in range(len(metrics)):
+        plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+    plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+
+# b) common scikit-learn algorithms utilizing partial_fit()
+
+@profile(stream=b_ml_fh)
+def train_ml_model(X_train_dda, y_train_dda, X_val_dda, y_val_dda, X_test_dda, y_test_dda, classes):
+    """
+    Trains a ML model using batch processing. 
+
+    Parameters:
+    X_train_dda: Training features
+    y_train_dda: Training target
+    X_val_dda: Validation features
+    y_val_dda: Validation target
+    X_test_dda: Test features
+    y_test_dda: Test target
+    """
+    start_time = time.time()
+    # Feature scaling
+    scaler = StandardScaler()
+    X_train_dda = scaler.fit_transform(X_train_dda)
+    X_val_dda = scaler.transform(X_val_dda)
+    X_test_dda = scaler.transform(X_test_dda)
+
+    # Initialize the SGDClassifier
+    clf = SGDClassifier(loss='log', max_iter=1000, random_state=111)
+
+    # The size of each batch (Ensure that this size will fit into the memory of your worker nodes)
+    batch_size = 500
+    num_batches = X_train_dda.shape[0] // batch_size
+
+    with ProgressBar():
+        # The partial_fit method updates the model's parameters with the data of each batch
+        for i in range(num_batches):
+            clf.partial_fit(X_train_dda[i*batch_size:(i+1)*batch_size], 
+                            y_train_dda[i*batch_size:(i+1)*batch_size],
+                            classes=classes)
+        remaining_size = X_train_dda.shape[0] % batch_size
+        if remaining_size != 0:
+            clf.partial_fit(X_train_dda[-remaining_size:],
+                    y_train_dda[-remaining_size:],
+                    classes=classes)
+
+    # Use the validation set to tune your model hyperparameters
+    val_predictions = clf.predict(X_val_dda)
+    val_accuracy = accuracy_score(y_val_dda, val_predictions)
+    val_loss = log_loss(y_val_dda, clf.predict_proba(X_val_dda))
+
+    # Perform prediction on the test set and calculate the metrics
+    y_pred = clf.predict(X_test_dda)
+    test_accuracy = accuracy_score(y_test_dda, y_pred)
+    test_precision = precision_score(y_test_dda, y_pred)
+    test_recall = recall_score(y_test_dda, y_pred)
+    test_loss = log_loss(y_test_dda, clf.predict_proba(X_test_dda))
+
+    print(f"Validation Accuracy: {val_accuracy}")
+    print(f"Test Accuracy: {test_accuracy}, Precision: {test_precision}, Recall: {test_recall}")
+
+    end_time = time.time()
+    total_time = end_time - start_time
+    print(f"Total time taken for PartialFit-ML model training: {total_time} seconds")
+
+    dump(clf, '../../models/sgd_model.joblib')
+
+    # creating figures for the metrics and saving them
+    metrics = [test_accuracy, test_precision, test_recall, test_loss]
+    metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+    plt.figure(figsize=(10, 5))
+    plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+    for i in range(len(metrics)):
+        plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+    plt.savefig('../../reports/figures/SGD_metrics_bar_chart.png')
+
+    # Log the metrics
     logger = logging.getLogger('metrics_log')
     logger.setLevel(logging.INFO)
     fh = logging.FileHandler("../../reports/logs/dask_ml_metrics.log")
@@ -166,9 +287,21 @@ def train_dask_ml_model2(X_train_dda, X_test_dda, y_train_dda, y_test_dda, class
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
-    logger.info(f"Dask-ML Model Accuracy: {accuracy}")
-    logger.info(f"Dask-ML Model Log Loss: {loss}")
-    logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+    logger.info(f"Validation Accuracy: {val_accuracy}")
+    logger.info(f"Validation Log Loss: {val_loss}")
+    logger.info(f"Test Accuracy: {test_accuracy}")
+    logger.info(f"Test Precision: {test_precision}")
+    logger.info(f"Test Recall: {test_recall}")
+    logger.info(f"Test Log Loss: {test_loss}")
+    logger.info(f"Total time taken for PartialFit model training: {total_time} seconds")
+    # Get the memory usage
+    process = psutil.Process(os.getpid())
+    total_memory = process.memory_info().rss  # in bytes
+
+    # You might want to convert bytes to MB or GB for better readability
+    total_memory_MB = total_memory / (1024 ** 2)  # Convert to MBs
+    print(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+    logger.info(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
     logger.removeHandler(fh)
 
 
@@ -263,11 +396,11 @@ def train_and_validate_model(model, X_train, y_train, X_test, y_test, device, n_
 
 def main(client):
     path = '../../data/processed/aggregated_data.parquet'
-    X_train_dda, X_test_dda, y_train_dda, y_test_dda = get_data(parquet_data=path)
-    print(np.unique(y_train_dda.compute()))
-    train_xgboost_model(X_train_dda, X_test_dda, y_train_dda, y_test_dda, client)
+    X_train_dda, X_val_dda, X_test_dda, y_train_dda, y_val_dda, y_test_dda = get_data2(parquet_data= path)
+    train_and_test_model(X_train= X_train_dda, X_val= X_val_dda, X_test= X_test_dda, y_train= y_train_dda, y_val= y_val_dda, y_test= y_test_dda, client=client)
     classes = np.unique(y_train_dda.compute())
-    #train_dask_ml_model2(X_train_dda, X_test_dda, y_train_dda, y_test_dda, classes=classes)
+    #train_ml_model(X_train_dda=X_train_dda, y_train_dda=y_train_dda, X_val_dda= X_val_dda, y_val_dda=y_val_dda, X_test_dda=X_test_dda, y_test_dda=y_test_dda, classes=classes)
+
 
 if __name__ == '__main__':
     cluster = LocalCluster(n_workers=4, threads_per_worker=2, memory_limit='2GB')

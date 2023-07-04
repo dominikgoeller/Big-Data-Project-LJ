@@ -1,3 +1,55 @@
 2023-06-09 03:02:48,754 - Dask-ML Model Accuracy: 1.0
 2023-06-09 03:02:48,755 - Dask-ML Model Log Loss: 0.008498961027878576
 2023-06-09 03:02:48,755 - Total time taken for Dask-ML model training: 0.7391901016235352 seconds
+2023-07-03 17:58:14,109 - XGBoost-ML Model Accuracy: 1.0
+2023-07-03 17:58:14,110 - XGBoost-ML Model Precision: 1.0
+2023-07-03 17:58:14,110 - XGBoost-ML Model Recall: 1.0
+2023-07-03 17:58:14,111 - XGBoost-ML Model Log Loss: 0.008498961027878576
+2023-07-03 17:58:14,111 - Total time taken for XGBoost-ML model training: 1.6811211109161377 seconds
+2023-07-03 18:00:03,188 - XGBoost-ML Model Accuracy: 1.0
+2023-07-03 18:00:03,189 - XGBoost-ML Model Precision: 1.0
+2023-07-03 18:00:03,190 - XGBoost-ML Model Recall: 1.0
+2023-07-03 18:00:03,190 - XGBoost-ML Model Log Loss: 0.008498961027878576
+2023-07-03 18:00:03,190 - Total time taken for XGBoost-ML model training: 1.6146941184997559 seconds
+2023-07-03 18:35:55,700 - Test Accuracy: 1.0
+2023-07-03 18:35:55,701 - Test Precision: 1.0
+2023-07-03 18:35:55,701 - Test Recall: 1.0
+2023-07-03 18:35:55,702 - Test Log Loss: 0.010939347078428998
+2023-07-03 18:35:55,702 - Total time taken for Dask-ML model training: 3.3537638187408447 seconds
+2023-07-03 18:37:03,548 - Test Accuracy: 1.0
+2023-07-03 18:37:03,549 - Test Precision: 1.0
+2023-07-03 18:37:03,550 - Test Recall: 1.0
+2023-07-03 18:37:03,550 - Test Log Loss: 0.010939347078428998
+2023-07-03 18:37:03,551 - Total time taken for Dask-ML model training: 3.2881147861480713 seconds
+2023-07-04 10:09:50,175 - Test Accuracy: 0.9866666666666667
+2023-07-04 10:09:50,176 - Test Precision: 0.95
+2023-07-04 10:09:50,177 - Test Recall: 1.0
+2023-07-04 10:09:50,177 - Test Log Loss: 0.06290857865736223
+2023-07-04 10:09:50,177 - Total time taken for Dask-ML model training: 3.4763450622558594 seconds
+2023-07-04 13:37:38,094 - Test Accuracy: 0.9866666666666667
+2023-07-04 13:37:38,095 - Test Precision: 0.95
+2023-07-04 13:37:38,096 - Test Recall: 1.0
+2023-07-04 13:37:38,096 - Test Log Loss: 0.06290857865736223
+2023-07-04 13:37:38,096 - Total time taken for Dask-ML model training: 3.046066999435425 seconds
+2023-07-04 14:45:51,842 - Test Accuracy: 0.9866666666666667
+2023-07-04 14:45:51,842 - Test Precision: 0.95
+2023-07-04 14:45:51,843 - Test Recall: 1.0
+2023-07-04 14:45:51,844 - Test Log Loss: 0.06290857865736223
+2023-07-04 14:45:51,844 - Total time taken for XGBoost-ML model training: 3.0567328929901123 seconds
+2023-07-04 17:11:06,438 - Test Accuracy: 0.9866666666666667
+2023-07-04 17:11:06,438 - Test Precision: 0.95
+2023-07-04 17:11:06,439 - Test Recall: 1.0
+2023-07-04 17:11:06,439 - Test Log Loss: 0.06290857865736223
+2023-07-04 17:11:06,439 - Total time taken for XGBoost-ML model training: 2.2942001819610596 seconds
+2023-07-04 17:12:19,494 - Test Accuracy: 0.9866666666666667
+2023-07-04 17:12:19,495 - Test Precision: 0.95
+2023-07-04 17:12:19,495 - Test Recall: 1.0
+2023-07-04 17:12:19,495 - Test Log Loss: 0.06290857865736223
+2023-07-04 17:12:19,496 - Total time taken for XGBoost-ML model training: 2.307429075241089 seconds
+2023-07-04 17:12:19,497 - Total memory used for PartialFit model training: 370.359375 MB
+2023-07-04 17:12:54,122 - Test Accuracy: 0.9866666666666667
+2023-07-04 17:12:54,123 - Test Precision: 0.95
+2023-07-04 17:12:54,123 - Test Recall: 1.0
+2023-07-04 17:12:54,124 - Test Log Loss: 0.06290857865736223
+2023-07-04 17:12:54,124 - Total time taken for XGBoost-ML model training: 2.3159677982330322 seconds
+2023-07-04 17:12:54,124 - Total memory used for PartialFit model training: 368.64453125 MB

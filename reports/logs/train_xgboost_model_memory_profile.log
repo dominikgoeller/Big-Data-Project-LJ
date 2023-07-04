@@ -72,3 +72,1527 @@
 2023-06-09 03:02:48,757 -  - DEBUG - 
 
 
+2023-07-03 18:00:05,331 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-03 18:00:05,332 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-03 18:00:05,332 -  - DEBUG - =============================================================
+
+2023-07-03 18:00:05,332 -  - DEBUG -     81    334.2 MiB    334.2 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     82                                         def train_xgboost_model(X_train, X_test,y_train, y_test, client):
+
+2023-07-03 18:00:05,332 -  - DEBUG -     83    334.2 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-03 18:00:05,332 -  - DEBUG -     84                                         
+
+2023-07-03 18:00:05,332 -  - DEBUG -     85    334.2 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     86    334.2 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-03 18:00:05,332 -  - DEBUG -     87    335.5 MiB      1.4 MiB           1       clf.fit(X=X_train, y=y_train)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     88    335.6 MiB      0.1 MiB           1       preds = clf.predict(X=X_test)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     89    335.8 MiB      0.1 MiB           1       accuracy = accuracy_score(y_test, preds)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     90    335.8 MiB      0.0 MiB           1       print("XGBoost Model Accuracy: ", accuracy)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     91                                         
+
+2023-07-03 18:00:05,332 -  - DEBUG -     92    335.9 MiB      0.2 MiB           1       precision = precision_score(y_test, preds)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     93    335.9 MiB      0.0 MiB           1       print("XGBoost Model Precision: ", precision)
+
+2023-07-03 18:00:05,332 -  - DEBUG -     94                                         
+
+2023-07-03 18:00:05,333 -  - DEBUG -     95    336.1 MiB      0.1 MiB           1       recall = recall_score(y_test, preds)
+
+2023-07-03 18:00:05,333 -  - DEBUG -     96    336.1 MiB      0.0 MiB           1       print("XGBoost Model Recall: ", recall)
+
+2023-07-03 18:00:05,333 -  - DEBUG -     97                                         
+
+2023-07-03 18:00:05,333 -  - DEBUG -     98    336.1 MiB      0.0 MiB           1       preds_proba = clf.predict_proba(X_test)
+
+2023-07-03 18:00:05,333 -  - DEBUG -     99    336.3 MiB      0.2 MiB           1       loss = log_loss(y_test, preds_proba)
+
+2023-07-03 18:00:05,333 -  - DEBUG -    100    336.3 MiB      0.0 MiB           1       print("XGBoost Model Log Loss: ", loss)
+
+2023-07-03 18:00:05,333 -  - DEBUG -    101                                         
+
+2023-07-03 18:00:05,333 -  - DEBUG -    102    336.5 MiB      0.2 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-03 18:00:05,333 -  - DEBUG -    103    336.5 MiB      0.0 MiB           1       client.close()
+
+2023-07-03 18:00:05,333 -  - DEBUG -    104    336.5 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-03 18:00:05,333 -  - DEBUG -    105    336.5 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-03 18:00:05,333 -  - DEBUG -    106    336.5 MiB      0.0 MiB           1       print(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-03 18:00:05,333 -  - DEBUG -    107                                         
+
+2023-07-03 18:00:05,333 -  - DEBUG -    108    336.5 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-03 18:00:05,333 -  - DEBUG -    109    336.5 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-03 18:00:05,333 -  - DEBUG -    110    336.5 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-03 18:00:05,333 -  - DEBUG -    111    336.5 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-03 18:00:05,333 -  - DEBUG -    112    336.5 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-03 18:00:05,334 -  - DEBUG -    113    336.5 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-03 18:00:05,334 -  - DEBUG -    114    336.5 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-03 18:00:05,334 -  - DEBUG -    115    336.5 MiB      0.0 MiB           1       logger.info(f"XGBoost-ML Model Accuracy: {accuracy}")
+
+2023-07-03 18:00:05,334 -  - DEBUG -    116    336.5 MiB      0.0 MiB           1       logger.info(f"XGBoost-ML Model Precision: {precision}")
+
+2023-07-03 18:00:05,334 -  - DEBUG -    117    336.5 MiB      0.0 MiB           1       logger.info(f"XGBoost-ML Model Recall: {recall}")
+
+2023-07-03 18:00:05,334 -  - DEBUG -    118    336.5 MiB      0.0 MiB           1       logger.info(f"XGBoost-ML Model Log Loss: {loss}")
+
+2023-07-03 18:00:05,334 -  - DEBUG -    119    336.5 MiB      0.0 MiB           1       logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-03 18:00:05,334 -  - DEBUG -    120    336.5 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-03 18:00:05,334 -  - DEBUG -    121                                         
+
+2023-07-03 18:00:05,334 -  - DEBUG -    122                                             # creating figures for the metrics and saving them
+
+2023-07-03 18:00:05,334 -  - DEBUG -    123    336.5 MiB      0.0 MiB           1       metrics = [accuracy, precision, recall, loss]
+
+2023-07-03 18:00:05,334 -  - DEBUG -    124    336.5 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-03 18:00:05,334 -  - DEBUG -    125                                         
+
+2023-07-03 18:00:05,334 -  - DEBUG -    126    349.7 MiB     13.2 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-03 18:00:05,334 -  - DEBUG -    127    350.2 MiB      0.6 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-03 18:00:05,334 -  - DEBUG -    128    350.2 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-03 18:00:05,334 -  - DEBUG -    129    350.2 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-03 18:00:05,334 -  - DEBUG -    130    353.5 MiB      3.3 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-03 18:00:05,334 -  - DEBUG -    131                                         
+
+2023-07-03 18:00:05,334 -  - DEBUG -    132                                             # If you want to save each metric in a separate file
+
+2023-07-03 18:00:05,335 -  - DEBUG -    133    361.3 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-03 18:00:05,335 -  - DEBUG -    134    360.0 MiB      1.5 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-03 18:00:05,335 -  - DEBUG -    135    360.0 MiB      0.5 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-03 18:00:05,335 -  - DEBUG -    136    360.0 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-03 18:00:05,335 -  - DEBUG -    137    361.3 MiB      5.7 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-03 18:00:05,335 -  - DEBUG - 
+
+
+2023-07-03 18:35:57,505 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-03 18:35:57,506 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-03 18:35:57,506 -  - DEBUG - =============================================================
+
+2023-07-03 18:35:57,506 -  - DEBUG -    163    334.8 MiB    334.8 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-03 18:35:57,506 -  - DEBUG -    164                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-03 18:35:57,506 -  - DEBUG -    165    334.8 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-03 18:35:57,506 -  - DEBUG -    166                                         
+
+2023-07-03 18:35:57,506 -  - DEBUG -    167    334.8 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-03 18:35:57,506 -  - DEBUG -    168    334.8 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-03 18:35:57,507 -  - DEBUG -    169                                         
+
+2023-07-03 18:35:57,507 -  - DEBUG -    170                                             # Specify our validation set and early stopping rounds
+
+2023-07-03 18:35:57,507 -  - DEBUG -    171    334.8 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-03 18:35:57,507 -  - DEBUG -    172    336.4 MiB      1.6 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=10)
+
+2023-07-03 18:35:57,507 -  - DEBUG -    173                                         
+
+2023-07-03 18:35:57,507 -  - DEBUG -    174                                             # Extract the performance metrics
+
+2023-07-03 18:35:57,507 -  - DEBUG -    175    336.4 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-03 18:35:57,507 -  - DEBUG -    176    336.4 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-03 18:35:57,507 -  - DEBUG -    177    336.4 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-03 18:35:57,507 -  - DEBUG -    178                                         
+
+2023-07-03 18:35:57,507 -  - DEBUG -    179                                             # Save the performance metrics plots
+
+2023-07-03 18:35:57,507 -  - DEBUG -    180    349.9 MiB     13.5 MiB           1       fig, ax = plt.subplots()
+
+2023-07-03 18:35:57,507 -  - DEBUG -    181    350.0 MiB      0.1 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    182    350.0 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    183    350.1 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-03 18:35:57,507 -  - DEBUG -    184    350.1 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    185    350.1 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    186    354.2 MiB      4.2 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    187                                         
+
+2023-07-03 18:35:57,507 -  - DEBUG -    188    355.0 MiB      0.8 MiB           1       fig, ax = plt.subplots()
+
+2023-07-03 18:35:57,507 -  - DEBUG -    189    355.0 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    190    355.0 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-03 18:35:57,507 -  - DEBUG -    191    355.1 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-03 18:35:57,508 -  - DEBUG -    192    355.1 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-03 18:35:57,508 -  - DEBUG -    193    355.1 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-03 18:35:57,508 -  - DEBUG -    194    356.9 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-03 18:35:57,508 -  - DEBUG -    195                                         
+
+2023-07-03 18:35:57,508 -  - DEBUG -    196    357.0 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-03 18:35:57,508 -  - DEBUG -    197                                         
+
+2023-07-03 18:35:57,508 -  - DEBUG -    198                                             # Begin testing phase
+
+2023-07-03 18:35:57,508 -  - DEBUG -    199    357.0 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    200                                         
+
+2023-07-03 18:35:57,508 -  - DEBUG -    201    357.2 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    202    357.4 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    203    357.5 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    204    357.7 MiB      0.3 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-03 18:35:57,508 -  - DEBUG -    205                                         
+
+2023-07-03 18:35:57,508 -  - DEBUG -    206                                             # Print the metrics
+
+2023-07-03 18:35:57,508 -  - DEBUG -    207    357.7 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    208    357.7 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    209    357.7 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    210    357.7 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-03 18:35:57,508 -  - DEBUG -    211                                         
+
+2023-07-03 18:35:57,508 -  - DEBUG -    212                                             # Log the metrics
+
+2023-07-03 18:35:57,508 -  - DEBUG -    213    357.7 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-03 18:35:57,508 -  - DEBUG -    214    357.7 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-03 18:35:57,509 -  - DEBUG -    215    357.7 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    216    357.7 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-03 18:35:57,509 -  - DEBUG -    217    357.7 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-03 18:35:57,509 -  - DEBUG -    218    357.7 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-03 18:35:57,509 -  - DEBUG -    219    357.7 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-03 18:35:57,509 -  - DEBUG -    220    357.7 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    221    357.7 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    222    357.7 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    223    357.7 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    224                                         
+
+2023-07-03 18:35:57,509 -  - DEBUG -    225    357.7 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-03 18:35:57,509 -  - DEBUG -    226    357.7 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-03 18:35:57,509 -  - DEBUG -    227    357.7 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-07-03 18:35:57,509 -  - DEBUG -    228    357.7 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-03 18:35:57,509 -  - DEBUG -    229                                         
+
+2023-07-03 18:35:57,509 -  - DEBUG -    230                                             # creating figures for the metrics and saving them
+
+2023-07-03 18:35:57,509 -  - DEBUG -    231    357.7 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-03 18:35:57,509 -  - DEBUG -    232    357.7 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-03 18:35:57,509 -  - DEBUG -    233                                         
+
+2023-07-03 18:35:57,509 -  - DEBUG -    234    358.2 MiB      0.4 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-03 18:35:57,509 -  - DEBUG -    235    358.4 MiB      0.3 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-03 18:35:57,510 -  - DEBUG -    236    358.4 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-03 18:35:57,510 -  - DEBUG -    237    358.4 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-03 18:35:57,510 -  - DEBUG -    238    360.7 MiB      2.3 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-03 18:35:57,510 -  - DEBUG -    239                                         
+
+2023-07-03 18:35:57,510 -  - DEBUG -    240                                             # If you want to save each metric in a separate file
+
+2023-07-03 18:35:57,510 -  - DEBUG -    241    368.2 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-03 18:35:57,510 -  - DEBUG -    242    366.0 MiB      1.7 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-03 18:35:57,510 -  - DEBUG -    243    366.1 MiB      0.8 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-03 18:35:57,510 -  - DEBUG -    244    366.1 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-03 18:35:57,510 -  - DEBUG -    245    368.2 MiB      4.9 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-03 18:35:57,510 -  - DEBUG - 
+
+
+2023-07-03 18:37:05,340 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-03 18:37:05,340 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-03 18:37:05,340 -  - DEBUG - =============================================================
+
+2023-07-03 18:37:05,340 -  - DEBUG -    163    335.0 MiB    335.0 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-03 18:37:05,341 -  - DEBUG -    164                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-03 18:37:05,341 -  - DEBUG -    165    335.0 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-03 18:37:05,341 -  - DEBUG -    166                                         
+
+2023-07-03 18:37:05,341 -  - DEBUG -    167    335.0 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-03 18:37:05,341 -  - DEBUG -    168    335.0 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-03 18:37:05,341 -  - DEBUG -    169                                         
+
+2023-07-03 18:37:05,341 -  - DEBUG -    170                                             # Specify our validation set and early stopping rounds
+
+2023-07-03 18:37:05,341 -  - DEBUG -    171    335.0 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-03 18:37:05,341 -  - DEBUG -    172    336.6 MiB      1.6 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-03 18:37:05,341 -  - DEBUG -    173                                         
+
+2023-07-03 18:37:05,341 -  - DEBUG -    174                                             # Extract the performance metrics
+
+2023-07-03 18:37:05,341 -  - DEBUG -    175    336.6 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-03 18:37:05,342 -  - DEBUG -    176    336.6 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-03 18:37:05,342 -  - DEBUG -    177    336.6 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-03 18:37:05,342 -  - DEBUG -    178                                         
+
+2023-07-03 18:37:05,342 -  - DEBUG -    179                                             # Save the performance metrics plots
+
+2023-07-03 18:37:05,342 -  - DEBUG -    180    350.1 MiB     13.5 MiB           1       fig, ax = plt.subplots()
+
+2023-07-03 18:37:05,342 -  - DEBUG -    181    350.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-03 18:37:05,342 -  - DEBUG -    182    350.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-03 18:37:05,342 -  - DEBUG -    183    350.3 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-03 18:37:05,342 -  - DEBUG -    184    350.3 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-03 18:37:05,342 -  - DEBUG -    185    350.3 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-03 18:37:05,342 -  - DEBUG -    186    354.4 MiB      4.1 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-03 18:37:05,342 -  - DEBUG -    187                                         
+
+2023-07-03 18:37:05,342 -  - DEBUG -    188    355.1 MiB      0.7 MiB           1       fig, ax = plt.subplots()
+
+2023-07-03 18:37:05,343 -  - DEBUG -    189    355.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    190    355.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    191    355.2 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-03 18:37:05,343 -  - DEBUG -    192    355.2 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    193    355.2 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    194    356.9 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    195                                         
+
+2023-07-03 18:37:05,343 -  - DEBUG -    196    356.9 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-03 18:37:05,343 -  - DEBUG -    197                                         
+
+2023-07-03 18:37:05,343 -  - DEBUG -    198                                             # Begin testing phase
+
+2023-07-03 18:37:05,343 -  - DEBUG -    199    357.0 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    200                                         
+
+2023-07-03 18:37:05,343 -  - DEBUG -    201    357.1 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    202    357.3 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    203    358.2 MiB      0.9 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    204    358.4 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-03 18:37:05,343 -  - DEBUG -    205                                         
+
+2023-07-03 18:37:05,343 -  - DEBUG -    206                                             # Print the metrics
+
+2023-07-03 18:37:05,343 -  - DEBUG -    207    358.4 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    208    358.4 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-03 18:37:05,343 -  - DEBUG -    209    358.4 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    210    358.4 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    211                                         
+
+2023-07-03 18:37:05,344 -  - DEBUG -    212                                             # Log the metrics
+
+2023-07-03 18:37:05,344 -  - DEBUG -    213    358.4 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-03 18:37:05,344 -  - DEBUG -    214    358.4 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    215    358.4 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    216    358.4 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    217    358.4 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-03 18:37:05,344 -  - DEBUG -    218    358.4 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    219    358.4 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    220    358.4 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    221    358.4 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    222    358.4 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    223    358.4 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    224                                         
+
+2023-07-03 18:37:05,344 -  - DEBUG -    225    358.4 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-03 18:37:05,344 -  - DEBUG -    226    358.4 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-03 18:37:05,344 -  - DEBUG -    227    358.4 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-07-03 18:37:05,344 -  - DEBUG -    228    358.4 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-03 18:37:05,344 -  - DEBUG -    229                                         
+
+2023-07-03 18:37:05,344 -  - DEBUG -    230                                             # creating figures for the metrics and saving them
+
+2023-07-03 18:37:05,344 -  - DEBUG -    231    358.4 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-03 18:37:05,344 -  - DEBUG -    232    358.4 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-03 18:37:05,345 -  - DEBUG -    233                                         
+
+2023-07-03 18:37:05,345 -  - DEBUG -    234    358.9 MiB      0.5 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-03 18:37:05,345 -  - DEBUG -    235    359.3 MiB      0.4 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-03 18:37:05,345 -  - DEBUG -    236    359.3 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-03 18:37:05,345 -  - DEBUG -    237    359.3 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-03 18:37:05,345 -  - DEBUG -    238    361.5 MiB      2.2 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-03 18:37:05,345 -  - DEBUG -    239                                         
+
+2023-07-03 18:37:05,345 -  - DEBUG -    240                                             # If you want to save each metric in a separate file
+
+2023-07-03 18:37:05,345 -  - DEBUG -    241    368.4 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-03 18:37:05,345 -  - DEBUG -    242    366.9 MiB      1.7 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-03 18:37:05,345 -  - DEBUG -    243    367.2 MiB      1.0 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-03 18:37:05,345 -  - DEBUG -    244    367.2 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-03 18:37:05,345 -  - DEBUG -    245    368.4 MiB      4.3 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-03 18:37:05,345 -  - DEBUG - 
+
+
+2023-07-04 10:09:51,967 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 10:09:51,968 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 10:09:51,968 -  - DEBUG - =============================================================
+
+2023-07-04 10:09:51,968 -  - DEBUG -    163    334.6 MiB    334.6 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 10:09:51,968 -  - DEBUG -    164                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 10:09:51,968 -  - DEBUG -    165    334.6 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 10:09:51,969 -  - DEBUG -    166                                         
+
+2023-07-04 10:09:51,969 -  - DEBUG -    167    334.6 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 10:09:51,969 -  - DEBUG -    168    334.6 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 10:09:51,969 -  - DEBUG -    169                                         
+
+2023-07-04 10:09:51,969 -  - DEBUG -    170                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 10:09:51,969 -  - DEBUG -    171    334.6 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 10:09:51,969 -  - DEBUG -    172    336.4 MiB      1.8 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 10:09:51,969 -  - DEBUG -    173                                         
+
+2023-07-04 10:09:51,969 -  - DEBUG -    174                                             # Extract the performance metrics
+
+2023-07-04 10:09:51,969 -  - DEBUG -    175    336.4 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 10:09:51,969 -  - DEBUG -    176    336.4 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 10:09:51,969 -  - DEBUG -    177    336.4 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 10:09:51,969 -  - DEBUG -    178                                         
+
+2023-07-04 10:09:51,969 -  - DEBUG -    179                                             # Save the performance metrics plots
+
+2023-07-04 10:09:51,969 -  - DEBUG -    180    349.8 MiB     13.4 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 10:09:51,969 -  - DEBUG -    181    349.8 MiB      0.1 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 10:09:51,969 -  - DEBUG -    182    349.8 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 10:09:51,969 -  - DEBUG -    183    349.9 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 10:09:51,969 -  - DEBUG -    184    349.9 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 10:09:51,969 -  - DEBUG -    185    349.9 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 10:09:51,969 -  - DEBUG -    186    354.2 MiB      4.3 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 10:09:51,969 -  - DEBUG -    187                                         
+
+2023-07-04 10:09:51,970 -  - DEBUG -    188    355.0 MiB      0.8 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 10:09:51,970 -  - DEBUG -    189    355.0 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    190    355.0 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    191    355.1 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 10:09:51,970 -  - DEBUG -    192    355.1 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    193    355.1 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    194    356.9 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    195                                         
+
+2023-07-04 10:09:51,970 -  - DEBUG -    196    357.0 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 10:09:51,970 -  - DEBUG -    197                                         
+
+2023-07-04 10:09:51,970 -  - DEBUG -    198                                             # Begin testing phase
+
+2023-07-04 10:09:51,970 -  - DEBUG -    199    357.0 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    200                                         
+
+2023-07-04 10:09:51,970 -  - DEBUG -    201    357.2 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    202    357.3 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    203    357.4 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    204    357.7 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 10:09:51,970 -  - DEBUG -    205                                         
+
+2023-07-04 10:09:51,970 -  - DEBUG -    206                                             # Print the metrics
+
+2023-07-04 10:09:51,970 -  - DEBUG -    207    357.7 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    208    357.7 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 10:09:51,970 -  - DEBUG -    209    357.7 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    210    357.7 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    211                                         
+
+2023-07-04 10:09:51,971 -  - DEBUG -    212                                             # Log the metrics
+
+2023-07-04 10:09:51,971 -  - DEBUG -    213    357.7 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 10:09:51,971 -  - DEBUG -    214    357.7 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    215    357.7 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    216    357.7 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    217    357.7 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 10:09:51,971 -  - DEBUG -    218    357.7 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    219    357.7 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    220    357.7 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    221    357.7 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    222    357.7 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    223    357.7 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    224                                         
+
+2023-07-04 10:09:51,971 -  - DEBUG -    225    357.7 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 10:09:51,971 -  - DEBUG -    226    357.7 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 10:09:51,971 -  - DEBUG -    227    357.7 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-07-04 10:09:51,971 -  - DEBUG -    228    357.7 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 10:09:51,971 -  - DEBUG -    229                                         
+
+2023-07-04 10:09:51,971 -  - DEBUG -    230                                             # creating figures for the metrics and saving them
+
+2023-07-04 10:09:51,971 -  - DEBUG -    231    357.7 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 10:09:51,972 -  - DEBUG -    232    357.7 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 10:09:51,972 -  - DEBUG -    233                                         
+
+2023-07-04 10:09:51,972 -  - DEBUG -    234    358.1 MiB      0.4 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 10:09:51,972 -  - DEBUG -    235    358.4 MiB      0.3 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 10:09:51,972 -  - DEBUG -    236    358.4 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 10:09:51,972 -  - DEBUG -    237    358.4 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 10:09:51,972 -  - DEBUG -    238    360.7 MiB      2.2 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 10:09:51,972 -  - DEBUG -    239                                         
+
+2023-07-04 10:09:51,972 -  - DEBUG -    240                                             # If you want to save each metric in a separate file
+
+2023-07-04 10:09:51,972 -  - DEBUG -    241    367.3 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-04 10:09:51,972 -  - DEBUG -    242    365.7 MiB      1.4 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-04 10:09:51,972 -  - DEBUG -    243    366.0 MiB      1.1 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-04 10:09:51,972 -  - DEBUG -    244    366.0 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-04 10:09:51,972 -  - DEBUG -    245    367.3 MiB      4.1 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-04 10:09:51,972 -  - DEBUG - 
+
+
+2023-07-04 13:37:39,867 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 13:37:39,868 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 13:37:39,868 -  - DEBUG - =============================================================
+
+2023-07-04 13:37:39,868 -  - DEBUG -    197    360.8 MiB    360.8 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 13:37:39,868 -  - DEBUG -    198                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 13:37:39,868 -  - DEBUG -    199    360.8 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 13:37:39,868 -  - DEBUG -    200                                         
+
+2023-07-04 13:37:39,868 -  - DEBUG -    201    360.8 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 13:37:39,869 -  - DEBUG -    202    360.8 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 13:37:39,869 -  - DEBUG -    203                                         
+
+2023-07-04 13:37:39,869 -  - DEBUG -    204                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 13:37:39,869 -  - DEBUG -    205    360.8 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 13:37:39,869 -  - DEBUG -    206    362.4 MiB      1.6 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 13:37:39,869 -  - DEBUG -    207                                         
+
+2023-07-04 13:37:39,869 -  - DEBUG -    208                                             # Extract the performance metrics
+
+2023-07-04 13:37:39,869 -  - DEBUG -    209    362.4 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 13:37:39,869 -  - DEBUG -    210    362.4 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 13:37:39,869 -  - DEBUG -    211    362.4 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 13:37:39,869 -  - DEBUG -    212                                         
+
+2023-07-04 13:37:39,869 -  - DEBUG -    213                                             # Save the performance metrics plots
+
+2023-07-04 13:37:39,869 -  - DEBUG -    214    363.1 MiB      0.6 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 13:37:39,869 -  - DEBUG -    215    363.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    216    363.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    217    363.1 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 13:37:39,869 -  - DEBUG -    218    363.1 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    219    363.1 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    220    364.9 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    221                                         
+
+2023-07-04 13:37:39,869 -  - DEBUG -    222    365.5 MiB      0.6 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 13:37:39,869 -  - DEBUG -    223    365.5 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    224    365.5 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 13:37:39,869 -  - DEBUG -    225    365.6 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 13:37:39,870 -  - DEBUG -    226    365.6 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 13:37:39,870 -  - DEBUG -    227    365.6 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 13:37:39,870 -  - DEBUG -    228    367.4 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 13:37:39,870 -  - DEBUG -    229                                         
+
+2023-07-04 13:37:39,870 -  - DEBUG -    230    367.5 MiB      0.0 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 13:37:39,870 -  - DEBUG -    231                                         
+
+2023-07-04 13:37:39,870 -  - DEBUG -    232                                             # Begin testing phase
+
+2023-07-04 13:37:39,870 -  - DEBUG -    233    367.5 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 13:37:39,870 -  - DEBUG -    234                                         
+
+2023-07-04 13:37:39,870 -  - DEBUG -    235    367.6 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 13:37:39,870 -  - DEBUG -    236    367.8 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 13:37:39,870 -  - DEBUG -    237    367.9 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 13:37:39,870 -  - DEBUG -    238    368.1 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 13:37:39,870 -  - DEBUG -    239                                         
+
+2023-07-04 13:37:39,870 -  - DEBUG -    240                                             # Print the metrics
+
+2023-07-04 13:37:39,871 -  - DEBUG -    241    368.1 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    242    368.1 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    243    368.1 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    244    368.1 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    245                                         
+
+2023-07-04 13:37:39,871 -  - DEBUG -    246                                             # Log the metrics
+
+2023-07-04 13:37:39,871 -  - DEBUG -    247    368.1 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 13:37:39,871 -  - DEBUG -    248    368.1 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    249    368.1 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    250    368.1 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    251    368.1 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 13:37:39,871 -  - DEBUG -    252    368.1 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    253    368.1 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 13:37:39,871 -  - DEBUG -    254    368.1 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    255    368.1 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    256    368.1 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    257    368.1 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    258                                         
+
+2023-07-04 13:37:39,871 -  - DEBUG -    259    368.1 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 13:37:39,871 -  - DEBUG -    260    368.1 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 13:37:39,871 -  - DEBUG -    261    368.1 MiB      0.0 MiB           1       logger.info(f"Total time taken for Dask-ML model training: {total_time} seconds")
+
+2023-07-04 13:37:39,871 -  - DEBUG -    262    368.1 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 13:37:39,872 -  - DEBUG -    263                                         
+
+2023-07-04 13:37:39,872 -  - DEBUG -    264                                             # creating figures for the metrics and saving them
+
+2023-07-04 13:37:39,872 -  - DEBUG -    265    368.1 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 13:37:39,872 -  - DEBUG -    266    368.1 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 13:37:39,872 -  - DEBUG -    267                                         
+
+2023-07-04 13:37:39,872 -  - DEBUG -    268    368.5 MiB      0.4 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 13:37:39,872 -  - DEBUG -    269    368.8 MiB      0.3 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 13:37:39,872 -  - DEBUG -    270    368.8 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 13:37:39,872 -  - DEBUG -    271    368.8 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 13:37:39,872 -  - DEBUG -    272    373.1 MiB      4.2 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 13:37:39,872 -  - DEBUG -    273                                         
+
+2023-07-04 13:37:39,872 -  - DEBUG -    274                                             # If you want to save each metric in a separate file
+
+2023-07-04 13:37:39,872 -  - DEBUG -    275    379.6 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-04 13:37:39,873 -  - DEBUG -    276    378.1 MiB      1.4 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-04 13:37:39,873 -  - DEBUG -    277    378.3 MiB      1.1 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-04 13:37:39,873 -  - DEBUG -    278    378.3 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-04 13:37:39,873 -  - DEBUG -    279    379.6 MiB      4.0 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-04 13:37:39,873 -  - DEBUG - 
+
+
+2023-07-04 14:45:53,607 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 14:45:53,607 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 14:45:53,607 -  - DEBUG - =============================================================
+
+2023-07-04 14:45:53,607 -  - DEBUG -    197    362.9 MiB    362.9 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 14:45:53,607 -  - DEBUG -    198                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 14:45:53,607 -  - DEBUG -    199    363.0 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 14:45:53,607 -  - DEBUG -    200                                         
+
+2023-07-04 14:45:53,607 -  - DEBUG -    201    363.0 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 14:45:53,607 -  - DEBUG -    202    363.0 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 14:45:53,607 -  - DEBUG -    203                                         
+
+2023-07-04 14:45:53,607 -  - DEBUG -    204                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 14:45:53,607 -  - DEBUG -    205    363.0 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 14:45:53,608 -  - DEBUG -    206    364.6 MiB      1.6 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 14:45:53,608 -  - DEBUG -    207                                         
+
+2023-07-04 14:45:53,608 -  - DEBUG -    208                                             # Extract the performance metrics
+
+2023-07-04 14:45:53,608 -  - DEBUG -    209    364.6 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 14:45:53,608 -  - DEBUG -    210    364.6 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 14:45:53,608 -  - DEBUG -    211    364.6 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 14:45:53,608 -  - DEBUG -    212                                         
+
+2023-07-04 14:45:53,608 -  - DEBUG -    213                                             # Save the performance metrics plots
+
+2023-07-04 14:45:53,608 -  - DEBUG -    214    365.1 MiB      0.6 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 14:45:53,608 -  - DEBUG -    215    365.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    216    365.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    217    365.2 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 14:45:53,608 -  - DEBUG -    218    365.2 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    219    365.2 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    220    366.9 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    221                                         
+
+2023-07-04 14:45:53,608 -  - DEBUG -    222    367.4 MiB      0.5 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 14:45:53,608 -  - DEBUG -    223    367.4 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    224    367.4 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    225    367.5 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 14:45:53,608 -  - DEBUG -    226    367.5 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    227    367.5 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    228    369.4 MiB      1.9 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 14:45:53,608 -  - DEBUG -    229                                         
+
+2023-07-04 14:45:53,609 -  - DEBUG -    230    369.4 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 14:45:53,609 -  - DEBUG -    231                                         
+
+2023-07-04 14:45:53,609 -  - DEBUG -    232                                             # Begin testing phase
+
+2023-07-04 14:45:53,609 -  - DEBUG -    233    369.5 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    234                                         
+
+2023-07-04 14:45:53,609 -  - DEBUG -    235    369.6 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    236    369.8 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    237    369.9 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    238    370.1 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 14:45:53,609 -  - DEBUG -    239                                         
+
+2023-07-04 14:45:53,609 -  - DEBUG -    240                                             # Print the metrics
+
+2023-07-04 14:45:53,609 -  - DEBUG -    241    370.1 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    242    370.1 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    243    370.1 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    244    370.1 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    245                                         
+
+2023-07-04 14:45:53,609 -  - DEBUG -    246                                             # Log the metrics
+
+2023-07-04 14:45:53,609 -  - DEBUG -    247    370.1 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 14:45:53,609 -  - DEBUG -    248    370.1 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    249    370.1 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 14:45:53,609 -  - DEBUG -    250    370.1 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    251    370.1 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 14:45:53,609 -  - DEBUG -    252    370.1 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    253    370.1 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 14:45:53,609 -  - DEBUG -    254    370.1 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 14:45:53,610 -  - DEBUG -    255    370.1 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 14:45:53,610 -  - DEBUG -    256    370.1 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 14:45:53,610 -  - DEBUG -    257    370.1 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 14:45:53,610 -  - DEBUG -    258                                         
+
+2023-07-04 14:45:53,610 -  - DEBUG -    259    370.1 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 14:45:53,610 -  - DEBUG -    260    370.1 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 14:45:53,610 -  - DEBUG -    261    370.1 MiB      0.0 MiB           1       logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-04 14:45:53,610 -  - DEBUG -    262    370.1 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 14:45:53,610 -  - DEBUG -    263                                         
+
+2023-07-04 14:45:53,610 -  - DEBUG -    264                                             # creating figures for the metrics and saving them
+
+2023-07-04 14:45:53,610 -  - DEBUG -    265    370.1 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 14:45:53,610 -  - DEBUG -    266    370.1 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 14:45:53,610 -  - DEBUG -    267                                         
+
+2023-07-04 14:45:53,610 -  - DEBUG -    268    370.5 MiB      0.4 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 14:45:53,610 -  - DEBUG -    269    370.7 MiB      0.2 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 14:45:53,610 -  - DEBUG -    270    370.7 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 14:45:53,610 -  - DEBUG -    271    370.7 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 14:45:53,610 -  - DEBUG -    272    375.1 MiB      4.3 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 14:45:53,610 -  - DEBUG -    273                                         
+
+2023-07-04 14:45:53,610 -  - DEBUG -    274                                             # If you want to save each metric in a separate file
+
+2023-07-04 14:45:53,610 -  - DEBUG -    275    381.0 MiB      0.0 MiB           5       for i, metric in enumerate(metrics):
+
+2023-07-04 14:45:53,610 -  - DEBUG -    276    379.8 MiB      0.7 MiB           4           plt.figure(figsize=(5, 5))
+
+2023-07-04 14:45:53,610 -  - DEBUG -    277    379.8 MiB      0.5 MiB           4           plt.bar(metric_names[i], metric, color='blue')
+
+2023-07-04 14:45:53,610 -  - DEBUG -    278    379.8 MiB      0.0 MiB           4           plt.text(0, metric, round(metric, 2), ha='center')
+
+2023-07-04 14:45:53,610 -  - DEBUG -    279    381.0 MiB      4.7 MiB           4           plt.savefig(f'../../reports/figures/XGBoost_{metric_names[i].lower()}_bar_chart.png')
+
+2023-07-04 14:45:53,611 -  - DEBUG - 
+
+
+2023-07-04 17:11:06,739 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 17:11:06,739 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 17:11:06,739 -  - DEBUG - =============================================================
+
+2023-07-04 17:11:06,739 -  - DEBUG -    123    361.0 MiB    361.0 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 17:11:06,739 -  - DEBUG -    124                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 17:11:06,739 -  - DEBUG -    125    361.0 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    126                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    127    361.0 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 17:11:06,740 -  - DEBUG -    128    361.0 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 17:11:06,740 -  - DEBUG -    129                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    130                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 17:11:06,740 -  - DEBUG -    131    361.0 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 17:11:06,740 -  - DEBUG -    132    363.6 MiB      2.7 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 17:11:06,740 -  - DEBUG -    133                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    134                                             # Extract the performance metrics
+
+2023-07-04 17:11:06,740 -  - DEBUG -    135    363.6 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    136    363.6 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 17:11:06,740 -  - DEBUG -    137    363.6 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 17:11:06,740 -  - DEBUG -    138                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    139                                             # Save the performance metrics plots
+
+2023-07-04 17:11:06,740 -  - DEBUG -    140    364.4 MiB      0.8 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    141    364.5 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    142    364.5 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    143    364.5 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    144    364.5 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    145    364.5 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    146    366.2 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    147                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    148    366.7 MiB      0.5 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    149    366.7 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    150    366.7 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    151    366.8 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 17:11:06,740 -  - DEBUG -    152    366.8 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    153    366.8 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    154    368.5 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    155                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    156    368.6 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 17:11:06,740 -  - DEBUG -    157                                         
+
+2023-07-04 17:11:06,740 -  - DEBUG -    158                                             # Begin testing phase
+
+2023-07-04 17:11:06,740 -  - DEBUG -    159    368.7 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 17:11:06,740 -  - DEBUG -    160                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    161    368.8 MiB      0.1 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    162    369.0 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    163    369.1 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    164    369.3 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 17:11:06,741 -  - DEBUG -    165                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    166                                             # Print the metrics
+
+2023-07-04 17:11:06,741 -  - DEBUG -    167    369.3 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    168    369.3 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    169    369.3 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    170    369.3 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    171                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    172                                             # Log the metrics
+
+2023-07-04 17:11:06,741 -  - DEBUG -    173    369.3 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 17:11:06,741 -  - DEBUG -    174    369.3 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    175    369.3 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    176    369.3 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    177    369.3 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 17:11:06,741 -  - DEBUG -    178    369.3 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    179    369.3 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    180    369.3 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    181    369.3 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    182    369.3 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    183    369.3 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    184                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    185    369.3 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 17:11:06,741 -  - DEBUG -    186    369.3 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 17:11:06,741 -  - DEBUG -    187    369.3 MiB      0.0 MiB           1       logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-04 17:11:06,741 -  - DEBUG -    188    369.3 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 17:11:06,741 -  - DEBUG -    189                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    190                                             # creating figures for the metrics and saving them
+
+2023-07-04 17:11:06,741 -  - DEBUG -    191    369.3 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 17:11:06,741 -  - DEBUG -    192    369.3 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 17:11:06,741 -  - DEBUG -    193                                         
+
+2023-07-04 17:11:06,741 -  - DEBUG -    194    369.6 MiB      0.3 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 17:11:06,741 -  - DEBUG -    195    369.8 MiB      0.2 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 17:11:06,742 -  - DEBUG -    196    369.8 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 17:11:06,742 -  - DEBUG -    197    369.8 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 17:11:06,742 -  - DEBUG -    198    374.1 MiB      4.3 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 17:11:06,742 -  - DEBUG - 
+
+
+2023-07-04 17:12:19,800 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 17:12:19,801 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 17:12:19,801 -  - DEBUG - =============================================================
+
+2023-07-04 17:12:19,801 -  - DEBUG -    123    361.1 MiB    361.1 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 17:12:19,801 -  - DEBUG -    124                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 17:12:19,801 -  - DEBUG -    125    361.1 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 17:12:19,801 -  - DEBUG -    126                                         
+
+2023-07-04 17:12:19,801 -  - DEBUG -    127    361.1 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 17:12:19,801 -  - DEBUG -    128    361.1 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 17:12:19,801 -  - DEBUG -    129                                         
+
+2023-07-04 17:12:19,801 -  - DEBUG -    130                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 17:12:19,801 -  - DEBUG -    131    361.1 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 17:12:19,801 -  - DEBUG -    132    363.0 MiB      1.9 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 17:12:19,801 -  - DEBUG -    133                                         
+
+2023-07-04 17:12:19,801 -  - DEBUG -    134                                             # Extract the performance metrics
+
+2023-07-04 17:12:19,801 -  - DEBUG -    135    363.0 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 17:12:19,801 -  - DEBUG -    136    363.0 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 17:12:19,801 -  - DEBUG -    137    363.0 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 17:12:19,801 -  - DEBUG -    138                                         
+
+2023-07-04 17:12:19,801 -  - DEBUG -    139                                             # Save the performance metrics plots
+
+2023-07-04 17:12:19,801 -  - DEBUG -    140    363.8 MiB      0.8 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:12:19,801 -  - DEBUG -    141    363.8 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    142    363.9 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    143    363.9 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 17:12:19,801 -  - DEBUG -    144    363.9 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    145    363.9 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    146    365.6 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    147                                         
+
+2023-07-04 17:12:19,801 -  - DEBUG -    148    366.2 MiB      0.6 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:12:19,801 -  - DEBUG -    149    366.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    150    366.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 17:12:19,801 -  - DEBUG -    151    366.3 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 17:12:19,802 -  - DEBUG -    152    366.3 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    153    366.3 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    154    368.0 MiB      1.7 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    155                                         
+
+2023-07-04 17:12:19,802 -  - DEBUG -    156    368.0 MiB      0.1 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    157                                         
+
+2023-07-04 17:12:19,802 -  - DEBUG -    158                                             # Begin testing phase
+
+2023-07-04 17:12:19,802 -  - DEBUG -    159    368.1 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    160                                         
+
+2023-07-04 17:12:19,802 -  - DEBUG -    161    369.9 MiB      1.8 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    162    370.0 MiB      0.2 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    163    370.1 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    164    370.4 MiB      0.2 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 17:12:19,802 -  - DEBUG -    165                                         
+
+2023-07-04 17:12:19,802 -  - DEBUG -    166                                             # Print the metrics
+
+2023-07-04 17:12:19,802 -  - DEBUG -    167    370.4 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    168    370.4 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    169    370.4 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    170    370.4 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    171                                         
+
+2023-07-04 17:12:19,802 -  - DEBUG -    172                                             # Log the metrics
+
+2023-07-04 17:12:19,802 -  - DEBUG -    173    370.4 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    174    370.4 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    175    370.4 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 17:12:19,802 -  - DEBUG -    176    370.4 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    177    370.4 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 17:12:19,802 -  - DEBUG -    178    370.4 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    179    370.4 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 17:12:19,802 -  - DEBUG -    180    370.4 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 17:12:19,803 -  - DEBUG -    181    370.4 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 17:12:19,803 -  - DEBUG -    182    370.4 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 17:12:19,803 -  - DEBUG -    183    370.4 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 17:12:19,803 -  - DEBUG -    184                                         
+
+2023-07-04 17:12:19,803 -  - DEBUG -    185    370.4 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 17:12:19,803 -  - DEBUG -    186    370.4 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 17:12:19,803 -  - DEBUG -    187    370.4 MiB      0.0 MiB           1       logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-04 17:12:19,803 -  - DEBUG -    188                                             # Get the memory usage
+
+2023-07-04 17:12:19,803 -  - DEBUG -    189    370.4 MiB      0.0 MiB           1       process = psutil.Process(os.getpid())
+
+2023-07-04 17:12:19,803 -  - DEBUG -    190    370.4 MiB      0.0 MiB           1       total_memory = process.memory_info().rss  # in bytes
+
+2023-07-04 17:12:19,803 -  - DEBUG -    191                                         
+
+2023-07-04 17:12:19,803 -  - DEBUG -    192                                             # You might want to convert bytes to MB or GB for better readability
+
+2023-07-04 17:12:19,803 -  - DEBUG -    193    370.4 MiB      0.0 MiB           1       total_memory_MB = total_memory / (1024 ** 2)  # Convert to MBs
+
+2023-07-04 17:12:19,803 -  - DEBUG -    194    370.4 MiB      0.0 MiB           1       print(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+
+2023-07-04 17:12:19,804 -  - DEBUG -    195    370.4 MiB      0.0 MiB           1       logger.info(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+
+2023-07-04 17:12:19,804 -  - DEBUG -    196    370.4 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 17:12:19,804 -  - DEBUG -    197                                         
+
+2023-07-04 17:12:19,804 -  - DEBUG -    198                                             # creating figures for the metrics and saving them
+
+2023-07-04 17:12:19,804 -  - DEBUG -    199    370.4 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 17:12:19,804 -  - DEBUG -    200    370.4 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 17:12:19,804 -  - DEBUG -    201                                         
+
+2023-07-04 17:12:19,804 -  - DEBUG -    202    370.9 MiB      0.5 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 17:12:19,804 -  - DEBUG -    203    371.1 MiB      0.2 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 17:12:19,804 -  - DEBUG -    204    371.1 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 17:12:19,804 -  - DEBUG -    205    371.1 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 17:12:19,804 -  - DEBUG -    206    375.4 MiB      4.2 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 17:12:19,804 -  - DEBUG - 
+
+
+2023-07-04 17:12:54,433 -  - DEBUG - Filename: /Users/Dominik/University/Ljubljana/Courses/bigdata/project/Big-Data-Project-LJ/src/models/train_model.py
+
+
+2023-07-04 17:12:54,434 -  - DEBUG - Line #    Mem usage    Increment  Occurrences   Line Contents
+
+2023-07-04 17:12:54,434 -  - DEBUG - =============================================================
+
+2023-07-04 17:12:54,434 -  - DEBUG -    123    361.2 MiB    361.2 MiB           1   @profile(stream=xgb_fh)
+
+2023-07-04 17:12:54,434 -  - DEBUG -    124                                         def train_and_test_model(X_train, X_val, X_test, y_train, y_val, y_test, client):
+
+2023-07-04 17:12:54,434 -  - DEBUG -    125    361.2 MiB      0.0 MiB           1       start_time = time.time()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    126                                         
+
+2023-07-04 17:12:54,434 -  - DEBUG -    127    361.2 MiB      0.0 MiB           1       clf = XGBClassifier(objective='binary:logistic', random_state=111, eval_metric=['error', 'logloss'])
+
+2023-07-04 17:12:54,434 -  - DEBUG -    128    361.2 MiB      0.0 MiB           1       clf.client = client
+
+2023-07-04 17:12:54,434 -  - DEBUG -    129                                         
+
+2023-07-04 17:12:54,434 -  - DEBUG -    130                                             # Specify our validation set and early stopping rounds
+
+2023-07-04 17:12:54,434 -  - DEBUG -    131    361.2 MiB      0.0 MiB           1       eval_set = [(X_train, y_train), (X_val, y_val)]
+
+2023-07-04 17:12:54,434 -  - DEBUG -    132    363.2 MiB      1.9 MiB           1       clf.fit(X=X_train, y=y_train, eval_set=eval_set, early_stopping_rounds=4)
+
+2023-07-04 17:12:54,434 -  - DEBUG -    133                                         
+
+2023-07-04 17:12:54,434 -  - DEBUG -    134                                             # Extract the performance metrics
+
+2023-07-04 17:12:54,434 -  - DEBUG -    135    363.2 MiB      0.0 MiB           1       results = clf.evals_result()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    136    363.2 MiB      0.0 MiB           1       epochs = len(results['validation_0']['error'])
+
+2023-07-04 17:12:54,434 -  - DEBUG -    137    363.2 MiB      0.0 MiB           1       x_axis = range(0, epochs)
+
+2023-07-04 17:12:54,434 -  - DEBUG -    138                                         
+
+2023-07-04 17:12:54,434 -  - DEBUG -    139                                             # Save the performance metrics plots
+
+2023-07-04 17:12:54,434 -  - DEBUG -    140    363.9 MiB      0.7 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    141    363.9 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    142    363.9 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['logloss'], label='Validation')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    143    363.9 MiB      0.0 MiB           1       ax.legend()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    144    363.9 MiB      0.0 MiB           1       plt.ylabel('Log Loss')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    145    363.9 MiB      0.0 MiB           1       plt.title('XGBoost Log Loss')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    146    365.7 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_log_loss.png')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    147                                         
+
+2023-07-04 17:12:54,434 -  - DEBUG -    148    366.1 MiB      0.4 MiB           1       fig, ax = plt.subplots()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    149    366.1 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_0']['error'], label='Train')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    150    366.2 MiB      0.0 MiB           1       ax.plot(x_axis, results['validation_1']['error'], label='Validation')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    151    366.2 MiB      0.1 MiB           1       ax.legend()
+
+2023-07-04 17:12:54,434 -  - DEBUG -    152    366.2 MiB      0.0 MiB           1       plt.ylabel('Classification Error')
+
+2023-07-04 17:12:54,434 -  - DEBUG -    153    366.2 MiB      0.0 MiB           1       plt.title('XGBoost Classification Error')
+
+2023-07-04 17:12:54,435 -  - DEBUG -    154    368.0 MiB      1.8 MiB           1       plt.savefig('../../reports/figures/xgb_classification_error.png')
+
+2023-07-04 17:12:54,435 -  - DEBUG -    155                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    156    368.1 MiB      0.0 MiB           1       clf.save_model('../../models/XGBClassifie.bin')
+
+2023-07-04 17:12:54,435 -  - DEBUG -    157                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    158                                             # Begin testing phase
+
+2023-07-04 17:12:54,435 -  - DEBUG -    159    368.2 MiB      0.1 MiB           1       y_pred = clf.predict(X_test)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    160                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    161    368.3 MiB      0.2 MiB           1       test_accuracy = accuracy_score(y_test, y_pred)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    162    368.5 MiB      0.1 MiB           1       test_precision = precision_score(y_test, y_pred)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    163    368.6 MiB      0.1 MiB           1       test_recall = recall_score(y_test, y_pred)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    164    368.6 MiB      0.1 MiB           1       test_log_loss = log_loss(y_test, clf.predict_proba(X_test))
+
+2023-07-04 17:12:54,435 -  - DEBUG -    165                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    166                                             # Print the metrics
+
+2023-07-04 17:12:54,435 -  - DEBUG -    167    368.6 MiB      0.0 MiB           1       print("Test Accuracy: ", test_accuracy)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    168    368.6 MiB      0.0 MiB           1       print("Test Precision: ", test_precision)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    169    368.6 MiB      0.0 MiB           1       print("Test Recall: ", test_recall)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    170    368.6 MiB      0.0 MiB           1       print("Test Log Loss: ", test_log_loss)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    171                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    172                                             # Log the metrics
+
+2023-07-04 17:12:54,435 -  - DEBUG -    173    368.6 MiB      0.0 MiB           1       logger = logging.getLogger('metrics_log')
+
+2023-07-04 17:12:54,435 -  - DEBUG -    174    368.6 MiB      0.0 MiB           1       logger.setLevel(logging.INFO)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    175    368.6 MiB      0.0 MiB           1       fh = logging.FileHandler("../../reports/logs/xgb_metrics.log")
+
+2023-07-04 17:12:54,435 -  - DEBUG -    176    368.6 MiB      0.0 MiB           1       fh.setLevel(logging.INFO)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    177    368.6 MiB      0.0 MiB           1       formatter = logging.Formatter('%(asctime)s - %(message)s')
+
+2023-07-04 17:12:54,435 -  - DEBUG -    178    368.6 MiB      0.0 MiB           1       fh.setFormatter(formatter)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    179    368.6 MiB      0.0 MiB           1       logger.addHandler(fh)
+
+2023-07-04 17:12:54,435 -  - DEBUG -    180    368.6 MiB      0.0 MiB           1       logger.info(f"Test Accuracy: {test_accuracy}")
+
+2023-07-04 17:12:54,435 -  - DEBUG -    181    368.6 MiB      0.0 MiB           1       logger.info(f"Test Precision: {test_precision}")
+
+2023-07-04 17:12:54,435 -  - DEBUG -    182    368.6 MiB      0.0 MiB           1       logger.info(f"Test Recall: {test_recall}")
+
+2023-07-04 17:12:54,435 -  - DEBUG -    183    368.6 MiB      0.0 MiB           1       logger.info(f"Test Log Loss: {test_log_loss}")
+
+2023-07-04 17:12:54,435 -  - DEBUG -    184                                         
+
+2023-07-04 17:12:54,435 -  - DEBUG -    185    368.6 MiB      0.0 MiB           1       end_time = time.time()
+
+2023-07-04 17:12:54,435 -  - DEBUG -    186    368.6 MiB      0.0 MiB           1       total_time = end_time - start_time
+
+2023-07-04 17:12:54,435 -  - DEBUG -    187    368.6 MiB      0.0 MiB           1       print(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-04 17:12:54,436 -  - DEBUG -    188    368.6 MiB      0.0 MiB           1       logger.info(f"Total time taken for XGBoost-ML model training: {total_time} seconds")
+
+2023-07-04 17:12:54,436 -  - DEBUG -    189                                             # Get the memory usage
+
+2023-07-04 17:12:54,436 -  - DEBUG -    190    368.6 MiB      0.0 MiB           1       process = psutil.Process(os.getpid())
+
+2023-07-04 17:12:54,436 -  - DEBUG -    191    368.6 MiB      0.0 MiB           1       total_memory = process.memory_info().rss  # in bytes
+
+2023-07-04 17:12:54,436 -  - DEBUG -    192                                         
+
+2023-07-04 17:12:54,436 -  - DEBUG -    193                                             # You might want to convert bytes to MB or GB for better readability
+
+2023-07-04 17:12:54,436 -  - DEBUG -    194    368.6 MiB      0.0 MiB           1       total_memory_MB = total_memory / (1024 ** 2)  # Convert to MBs
+
+2023-07-04 17:12:54,436 -  - DEBUG -    195    368.6 MiB      0.0 MiB           1       print(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+
+2023-07-04 17:12:54,436 -  - DEBUG -    196    368.6 MiB      0.0 MiB           1       logger.info(f"Total memory used for PartialFit model training: {total_memory_MB} MB")
+
+2023-07-04 17:12:54,436 -  - DEBUG -    197    368.6 MiB      0.0 MiB           1       logger.removeHandler(fh)
+
+2023-07-04 17:12:54,436 -  - DEBUG -    198                                         
+
+2023-07-04 17:12:54,436 -  - DEBUG -    199                                             # creating figures for the metrics and saving them
+
+2023-07-04 17:12:54,436 -  - DEBUG -    200    368.6 MiB      0.0 MiB           1       metrics = [test_accuracy, test_precision, test_recall, test_log_loss]
+
+2023-07-04 17:12:54,436 -  - DEBUG -    201    368.6 MiB      0.0 MiB           1       metric_names = ['Accuracy', 'Precision', 'Recall', 'Log Loss']
+
+2023-07-04 17:12:54,436 -  - DEBUG -    202                                         
+
+2023-07-04 17:12:54,436 -  - DEBUG -    203    369.0 MiB      0.4 MiB           1       plt.figure(figsize=(10, 5))
+
+2023-07-04 17:12:54,436 -  - DEBUG -    204    369.2 MiB      0.2 MiB           1       plt.bar(metric_names, metrics, color=['blue', 'orange', 'green', 'red'])
+
+2023-07-04 17:12:54,436 -  - DEBUG -    205    369.2 MiB      0.0 MiB           5       for i in range(len(metrics)):
+
+2023-07-04 17:12:54,436 -  - DEBUG -    206    369.2 MiB      0.0 MiB           4           plt.text(i, metrics[i], round(metrics[i], 2), ha='center')
+
+2023-07-04 17:12:54,436 -  - DEBUG -    207    373.4 MiB      4.1 MiB           1       plt.savefig('../../reports/figures/XGBoost_metrics_bar_chart.png')
+
+2023-07-04 17:12:54,436 -  - DEBUG - 
+
+
